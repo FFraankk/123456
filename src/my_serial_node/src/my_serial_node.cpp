@@ -12,21 +12,21 @@ public:
   MySerialNode() : Node("my_serial_node")
   {
     // 创建15个话题发布者
-    pub_latitude = create_publisher<std_msgs::msg::Float64>("latitude", 10);
-    pub_longitude = create_publisher<std_msgs::msg::Float64>("longitude", 10);
-    pub_motor_speed_0 = create_publisher<std_msgs::msg::Int32>("motor_speed_0", 10);
-    pub_motor_speed_1 = create_publisher<std_msgs::msg::Int32>("motor_speed_1", 10);
-    pub_motor_speed_2 = create_publisher<std_msgs::msg::Int32>("motor_speed_2", 10);
-    pub_motor_speed_3 = create_publisher<std_msgs::msg::Int32>("motor_speed_3", 10);
-    pub_real_vcx = create_publisher<std_msgs::msg::Float32>("real_vcx", 10);
-    pub_real_w = create_publisher<std_msgs::msg::Float32>("real_w", 10);
-    pub_gyro_z = create_publisher<std_msgs::msg::Float32>("gyro_z", 10);
-    pub_roll = create_publisher<std_msgs::msg::Float32>("roll", 10);
-    pub_pitch = create_publisher<std_msgs::msg::Float32>("pitch", 10);
-    pub_yaw = create_publisher<std_msgs::msg::Float32>("yaw", 10);
-    pub_linear_acc_x = create_publisher<std_msgs::msg::Float32>("linear_acc_x", 10);
-    pub_gps_diff_x = create_publisher<std_msgs::msg::Float32>("gps_diff_x", 10);
-    pub_gps_diff_y = create_publisher<std_msgs::msg::Float32>("gps_diff_y", 10);
+    pub_latitude = this->create_publisher<std_msgs::msg::Float64>("latitude", 10);
+    pub_longitude = this->create_publisher<std_msgs::msg::Float64>("longitude", 10);
+    pub_motor_speed_0 = this->create_publisher<std_msgs::msg::Int32>("motor_speed_0", 10);
+    pub_motor_speed_1 = this->create_publisher<std_msgs::msg::Int32>("motor_speed_1", 10);
+    pub_motor_speed_2 = this->create_publisher<std_msgs::msg::Int32>("motor_speed_2", 10);
+    pub_motor_speed_3 = this->create_publisher<std_msgs::msg::Int32>("motor_speed_3", 10);
+    pub_real_vcx = this->create_publisher<std_msgs::msg::Float32>("real_vcx", 10);
+    pub_real_w = this->create_publisher<std_msgs::msg::Float32>("real_w", 10);
+    pub_gyro_z = this->create_publisher<std_msgs::msg::Float32>("gyro_z", 10);
+    pub_roll = this->create_publisher<std_msgs::msg::Float32>("roll", 10);
+    pub_pitch = this->create_publisher<std_msgs::msg::Float32>("pitch", 10);
+    pub_yaw = this->create_publisher<std_msgs::msg::Float32>("yaw", 10);
+    pub_linear_acc_x = this->create_publisher<std_msgs::msg::Float32>("linear_acc_x", 10);
+    pub_gps_diff_x = this->create_publisher<std_msgs::msg::Float32>("gps_diff_x", 10);
+    pub_gps_diff_y = this->create_publisher<std_msgs::msg::Float32>("gps_diff_y", 10);
 
     // 初始化串口接收逻辑，例如使用串口库
     // 在这里你可以使用你常用的串口通信库，例如boost::asio或者serial库等
@@ -90,22 +90,54 @@ private:
         float gps_diff_x = std::stof(tokens[13]);
         float gps_diff_y = std::stof(tokens[14]);
 
-        // 发布到相应话题
-        pub_latitude->publish(latitude);
-        pub_longitude->publish(longitude);
-        pub_motor_speed_0->publish(motor_speed[0]);
-        pub_motor_speed_1->publish(motor_speed[1]);
-        pub_motor_speed_2->publish(motor_speed[2]);
-        pub_motor_speed_3->publish(motor_speed[3]);
-        pub_real_vcx->publish(real_vcx);
-        pub_real_w->publish(real_w);
-        pub_gyro_z->publish(gyro_z);
-        pub_roll->publish(roll);
-        pub_pitch->publish(pitch);
-        pub_yaw->publish(yaw);
-        pub_linear_acc_x->publish(linear_acc_x);
-        pub_gps_diff_x->publish(gps_diff_x);
-        pub_gps_diff_y->publish(gps_diff_y);
+        std_msgs::msg::Float64 latitude_msg;
+        std_msgs::msg::Float64 longitude_msg;
+        std_msgs::msg::Int32 motor_speed_0_msg;
+        std_msgs::msg::Int32 motor_speed_1_msg;
+        std_msgs::msg::Int32 motor_speed_2_msg;
+        std_msgs::msg::Int32 motor_speed_3_msg;
+        std_msgs::msg::Float32 real_vcx_msg;
+        std_msgs::msg::Float32 real_w_msg;
+        std_msgs::msg::Float32 gyro_z_msg;
+        std_msgs::msg::Float32 roll_msg;
+        std_msgs::msg::Float32 pitch_msg;
+        std_msgs::msg::Float32 yaw_msg;
+        std_msgs::msg::Float32 linear_acc_x_msg;
+        std_msgs::msg::Float32 gps_diff_x_msg;
+        std_msgs::msg::Float32 gps_diff_y_msg;
+        
+        latitude_msg.data = latitude;
+        longitude_msg.data = longitude;
+        motor_speed_0_msg.data = motor_speed[0];
+        motor_speed_1_msg.data = motor_speed[1];
+        motor_speed_2_msg.data = motor_speed[2];
+        motor_speed_3_msg.data = motor_speed[3];
+        real_vcx_msg.data = real_vcx;
+        real_w_msg.data = real_w;
+        gyro_z_msg.data = gyro_z;
+        roll_msg.data = roll;
+        pitch_msg.data = pitch;
+        yaw_msg.data = yaw;
+        linear_acc_x_msg.data = linear_acc_x;
+        gps_diff_x_msg.data = gps_diff_x;
+        gps_diff_y_msg.data = gps_diff_y;
+        
+        // Publishing the messages
+        pub_latitude->publish(latitude_msg);
+        pub_longitude->publish(longitude_msg);
+        pub_motor_speed_0->publish(motor_speed_0_msg);
+        pub_motor_speed_1->publish(motor_speed_1_msg);
+        pub_motor_speed_2->publish(motor_speed_2_msg);
+        pub_motor_speed_3->publish(motor_speed_3_msg);
+        pub_real_vcx->publish(real_vcx_msg);
+        pub_real_w->publish(real_w_msg);
+        pub_gyro_z->publish(gyro_z_msg);
+        pub_roll->publish(roll_msg);
+        pub_pitch->publish(pitch_msg);
+        pub_yaw->publish(yaw_msg);
+        pub_linear_acc_x->publish(linear_acc_x_msg);
+        pub_gps_diff_x->publish(gps_diff_x_msg);
+        pub_gps_diff_y->publish(gps_diff_y_msg);
 
       } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "Error parsing serial data: %s", e.what());
